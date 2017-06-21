@@ -8,7 +8,6 @@ require __DIR__ . '/../vendor/autoload.php';
 
 
 
-//configuration values
 session_start();
 
 $app = new \Slim\App([
@@ -18,7 +17,12 @@ $app = new \Slim\App([
 ]);
 $container = $app->getContainer();
 
-//testing config files
+//for flash messages
+$container['flash'] = function ($container) {
+    return new \Slim\Flash\Messages;
+};
+
+//for twig views
 $container['view'] = function ($container) {
     $view = new \Slim\Views\Twig(__DIR__ . '/../resources/views', [
         'cache' => false,
@@ -31,7 +35,15 @@ $container['view'] = function ($container) {
         $container->router,
         $container->request->getUri()
     ));
+
+    //for flash messages
+    $view->getEnvironment()->addGlobal('flash', $container->flash);
     return $view;
+};
+
+//register home controller
+$container['HomeController'] = function ($container) {
+    return new \App\Controllers\HomeController($container);
 };
 
 require __DIR__ . '/../app/routes.php';
