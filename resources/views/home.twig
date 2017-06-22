@@ -7,9 +7,9 @@
 
     <div class="col col-lg-6">
 
-    <form class="form-inline">
-        <label class="sr-only" for="inlineFormInput">Name</label>
-        <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="inlineFormInput" placeholder="Url to short here">
+    <form class="form-inline" action="{{ path_for('home') }}" method="post" autocomplete="off">
+        <label class="sr-only" for="Url">Url</label>
+        <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="Url" name="Url" placeholder="Url to short here">
 
 
         <button type="submit" class="btn btn-primary">Submit</button>

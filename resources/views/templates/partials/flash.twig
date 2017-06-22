@@ -4,8 +4,20 @@
     </div>
 {% endif %}
 
-{% if flash.getMessage('error') %}
+{% if flash.getMessage('danger') %}
     <div class="alert alert-danger">
-        {{ flash.getMessage('error') | first }}
+        {{ flash.getMessage('danger') | first }}
+    </div>
+{% endif %}
+
+{% if flash.getMessage('warning') %}
+    <div class="alert alert-warning">
+        {{ flash.getMessage('warning') | first }}
+    </div>
+{% endif %}
+
+{% if flash.getMessage('success') %}
+    <div class="alert alert-success">
+        {{ flash.getMessage('success') | first }}
     </div>
 {% endif %}

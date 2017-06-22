@@ -29,7 +29,7 @@ class CreateUrlTable extends AbstractMigration
     {
         $urls=$this->table('urls');
         $urls->addColumn('longurl', 'string', array('limit' => 255))
-            ->addColumn('shorturl', 'string', array('limit' => 255))
+            ->addColumn('shorturl', 'string', array('limit' => 255,'null' => true))
             ->addColumn('created_at', 'timestamp', array('default' => 'CURRENT_TIMESTAMP'))
             ->addColumn('updated_at', 'timestamp', array('null' => true))
             ->addIndex(array('longurl'), array('unique' => true))

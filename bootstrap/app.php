@@ -70,4 +70,9 @@ $container['HomeController'] = function ($container) {
     return new \App\Controllers\HomeController($container);
 };
 
+//register Url controller
+$container['UrlController'] = function ($container) {
+    return new \App\Controllers\UrlController($container);
+};
+
 require __DIR__ . '/../app/routes.php';
