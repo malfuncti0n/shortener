@@ -4,7 +4,10 @@
 namespace App\Models;
 
 
-class Url
+use Illuminate\Database\Eloquent\Model;
+
+
+class Url extends Model
 {
     protected $table = 'urls';
 
