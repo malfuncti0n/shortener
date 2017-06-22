@@ -27,7 +27,7 @@ class UrlController extends Controller
             $this->flash->addMessage('warning', ' '.$url .'  is not a url');
             return $response->withRedirect($this->router->pathFor('home'));
         }
-        //validate tha url response back
+        //validate that url response back
         elseif (!$this->validateHostUrl($url)){
             $this->flash->addMessage('warning', 'Url  '.$url .'  not respond');
             return $response->withRedirect($this->router->pathFor('home'));
@@ -45,11 +45,11 @@ class UrlController extends Controller
             //save it to db
             $urlModel->save();
             //display short code to user :D
-            $this->flash->addMessage('success', 'Your Short Url: '. $urlModel->shorturl);
+            $this->flash->addMessage('success', 'Your Short Url: '.$request->getUri()->getHost().'/'. $urlModel->shorturl);
             return $response->withRedirect($this->router->pathFor('home'));
         }
         //if exist in db means that short url allready generated for us
-        $this->flash->addMessage('success', 'Your Short Url: '. $shortUrl);
+        $this->flash->addMessage('success', 'Your Short Url: '.$request->getUri()->getHost().'/'. $shortUrl);
         return $response->withRedirect($this->router->pathFor('home'));
 
 
@@ -99,7 +99,11 @@ class UrlController extends Controller
             $id = floor($id/$base);
         }
 
-        return $converted; // 4Q
+        return $converted;
+    }
+
+    public function makeFullUrl($request, $url){
+        return $request->getUri()->getHost().'/'.$url;
     }
 
 }
