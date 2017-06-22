@@ -6,16 +6,40 @@ ini_set('xdebug.var_display_max_children', -1);
 ini_set('xdebug.var_display_max_data', -1);
 require __DIR__ . '/../vendor/autoload.php';
 
+use Noodlehaus\Config;
+$config = new Config(__DIR__ . '/../app/config');
 
 
 session_start();
 
 $app = new \Slim\App([
     'settings' => [
-        'displayErrorDetails' => true
+        'displayErrorDetails' => true,
+        'db' => [
+            'driver' => $config->get('mysql.driver'),
+            'host' => $config->get('mysql.host'),
+            'database' => $config->get('mysql.database'),
+            'username' => $config->get('mysql.username'),
+            'password' => $config->get('mysql.password'),
+            'charset' =>  $config->get('mysql.charset'),
+            'collation' => $config->get('mysql.collation'),
+            'prefix' => $config->get('mysql.prefix'),
+        ]
     ],
 ]);
 $container = $app->getContainer();
+
+//database connect
+$capsule = new \Illuminate\Database\Capsule\Manager;
+$capsule->addConnection($container['settings']['db']);
+$capsule->setAsGlobal();
+$capsule->bootEloquent();
+
+//add db inside container
+$container['db'] = function ($container) use ($capsule) {
+    return $capsule;
+};
+
 
 //for flash messages
 $container['flash'] = function ($container) {
