@@ -75,4 +75,10 @@ $container['UrlController'] = function ($container) {
     return new \App\Controllers\UrlController($container);
 };
 
+//register Redirect controller
+$container['RedirectController'] = function ($container) {
+    return new \App\Controllers\RedirectController($container);
+};
+
+
 require __DIR__ . '/../app/routes.php';
