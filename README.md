@@ -1,6 +1,6 @@
 # Shortener
 
-Your software to short urls without adds. You can check a working version based on master branch on [heroku](https://urltosmall.herokuapp.com/)
+Your software to short urls without adds. visit as here: [qbit.fun](https://qbit.fun) . You can check a working version based on master branch on [heroku](https://urltosmall.herokuapp.com/)
 
 ## Getting Started
 
