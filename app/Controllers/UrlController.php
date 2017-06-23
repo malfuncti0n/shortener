@@ -27,7 +27,7 @@ class UrlController extends Controller
             $url=$this->addHttp($url);
         }
         //validate that is a url
-        elseif (!$this->validateUrl($url)){
+        if (!$this->validateUrl($url)){
             $this->flash->addMessage('warning', ' '.$url .'  is not a url');
             return $response->withRedirect($this->router->pathFor('home'));
         }
