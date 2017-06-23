@@ -22,6 +22,10 @@ class UrlController extends Controller
             $this->flash->addMessage('danger', 'You did not supply any Url');
             return $response->withRedirect($this->router->pathFor('home'));
         }
+        //if url has no http or https add it.
+        elseif (!$this->hasHttp($url)){
+            $url=$this->addHttp($url);
+        }
         //validate that is a url
         elseif (!$this->validateUrl($url)){
             $this->flash->addMessage('warning', ' '.$url .'  is not a url');
@@ -51,9 +55,6 @@ class UrlController extends Controller
         //if exist in db means that short url allready generated for us
         $this->flash->addMessage('success', 'Your Short Url: '.$request->getUri()->getHost().'/'. $shortUrl);
         return $response->withRedirect($this->router->pathFor('home'));
-
-
-
 
 
     }
@@ -101,9 +102,23 @@ class UrlController extends Controller
 
         return $converted;
     }
-
+    //combine domain with redirect short url
     public function makeFullUrl($request, $url){
         return $request->getUri()->getHost().'/'.$url;
+    }
+
+    //check if provided url has http or https and return true or false
+    public function hasHttp($url){
+        $parsed = parse_url($url);
+        if (empty($parsed['scheme'])) {
+            return false;
+
+        }
+        return true;
+    }
+    //add http to url
+    public function addHttp($url){
+        return 'http://' . ltrim($url, '/');
     }
 
 }
