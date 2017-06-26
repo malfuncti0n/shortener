@@ -1,22 +1,36 @@
 {% extends 'templates/app.twig' %}
-
+{% block extralinks %}
+    <link href="https://fonts.googleapis.com/css?family=Happy+Monkey" rel="stylesheet">
+{%  endblock %}
 {% block content %}
 <div class="row">
 
     <div class="col col-lg-3"></div>
 
     <div class="col col-lg-6">
+
+
+
     <div class="centered">
 
 
     <form class="form-inline" action="{{ path_for('home') }}" method="post" autocomplete="off">
-        <label class="sr-only" for="Url">Url</label>
-        <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="Url" name="Url" placeholder="Url to short here">
 
 
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <input type="text" class="form-control width_70" id="Url" name="Url" placeholder="Url to short here">
+
+
+        <button type="submit" class="btn btn-primary ">Submit</button>
+
+
     </form>
     </div>
+
+        <div class="happy width_70">
+            Paste your URL here and click Submit button
+        </div>
+        {% include 'templates/partials/flash.twig' %}
+
     </div>
     <div class="col col-lg-3"></div>
 
