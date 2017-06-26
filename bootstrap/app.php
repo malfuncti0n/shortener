@@ -6,7 +6,9 @@ ini_set('xdebug.var_display_max_children', -1);
 ini_set('xdebug.var_display_max_data', -1);
 require __DIR__ . '/../vendor/autoload.php';
 
+use Respect\Validation\Validator as v;
 use Noodlehaus\Config;
+
 $config = new Config(__DIR__ . '/../app/config');
 
 
@@ -60,6 +62,12 @@ $container['view'] = function ($container) {
         $container->request->getUri()
     ));
 
+    //for auth check
+    $view->getEnvironment()->addGlobal('auth', [
+        'check' => $container->auth->check(),
+        'user' => $container->auth->user(),
+    ]);
+
     //for flash messages
     $view->getEnvironment()->addGlobal('flash', $container->flash);
     return $view;
@@ -70,6 +78,10 @@ $container['HomeController'] = function ($container) {
     return new \App\Controllers\HomeController($container);
 };
 
+
+$containerp['validator'] = function ($container){
+  return new App\Validation\Validator;
+};
 //register Url controller
 $container['UrlController'] = function ($container) {
     return new \App\Controllers\UrlController($container);
@@ -80,5 +92,27 @@ $container['RedirectController'] = function ($container) {
     return new \App\Controllers\RedirectController($container);
 };
 
+
+//authentication controller
+
+$container['AuthController'] = function ($container) {
+    return new \App\Controllers\Auth\AuthController($container);
+};
+
+//password controller
+$container['PasswordController'] = function ($container) {
+    return new \App\Controllers\Auth\PasswordController($container);
+};
+
+//csrf protection controller
+$container['csrf'] = function ($container) {
+    return new \Slim\Csrf\Guard;
+};
+
+//csrf add
+$app->add($container->csrf);
+
+//custom rules on validation class
+v::with('App\\Validation\\Rules\\');
 
 require __DIR__ . '/../app/routes.php';
