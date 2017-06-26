@@ -79,7 +79,7 @@ $container['HomeController'] = function ($container) {
 };
 
 
-$containerp['validator'] = function ($container){
+$container['validator'] = function ($container){
   return new App\Validation\Validator;
 };
 //register Url controller
@@ -92,9 +92,12 @@ $container['RedirectController'] = function ($container) {
     return new \App\Controllers\RedirectController($container);
 };
 
+//auth for middleware
+$container['auth'] = function ($container) {
+    return new \App\Auth\Auth;
+};
 
 //authentication controller
-
 $container['AuthController'] = function ($container) {
     return new \App\Controllers\Auth\AuthController($container);
 };
@@ -109,6 +112,9 @@ $container['csrf'] = function ($container) {
     return new \Slim\Csrf\Guard;
 };
 
+$app->add(new \App\Middleware\ValidationErrorsMiddleware($container));
+$app->add(new \App\Middleware\OldInputMiddleware($container));
+$app->add(new \App\Middleware\CsrfViewMiddleware($container));
 //csrf add
 $app->add($container->csrf);
 

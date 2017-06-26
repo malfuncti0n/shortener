@@ -1,5 +1,9 @@
 <?php
 
+
+use App\Middleware\AuthMiddleware;
+use App\Middleware\GuestMiddleware;
+
 // Define app routes
 
 $app->get('/', 'HomeController:index')->setName('home');
